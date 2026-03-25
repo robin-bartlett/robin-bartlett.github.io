@@ -1,591 +1,146 @@
-<!DOCTYPE html>
-<html lang="en">
+
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Geometric Perspectives on the Langlands Programme | QMUL, 2025</title>
-  <style>
-    /* ─── Colour palette – edit these to rebrand ─── */
-    :root {
-      --primary:   #2e4a5a;   /* dark teal-grey (bridge towers) */
-      --accent:    #4d7a8a;   /* mid teal (water reflections)  */
-      --light-bg:  #edf1f4;   /* pale misty grey-blue          */
-      --border:    #c4d0d8;   /* soft blue-grey                */
-      --text:      #222;
-      --muted:     #555;
-      --white:     #fff;
-      --max-width: 900px;
-    }
-
-    /* ─── Reset & base ─── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: Georgia, "Times New Roman", serif;
-      color: var(--text);
-      line-height: 1.7;
-      background: var(--white);
-    }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    h1, h2, h3, h4 { font-family: "Palatino Linotype", Palatino, serif; color: var(--primary); }
-
-    /* ─── Navigation ─── */
-    nav {
-      background: var(--primary);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 6px rgba(0,0,0,.25);
-    }
-    nav ul {
-      display: flex;
-      flex-wrap: wrap;
-      list-style: none;
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 0 1rem;
-    }
-    nav ul li a {
-      display: block;
-      padding: .85rem 1.1rem;
-      color: rgba(255,255,255,.88);
-      font-family: Arial, sans-serif;
-      font-size: .92rem;
-      letter-spacing: .03em;
-      transition: color .2s, background .2s;
-    }
-    nav ul li a:hover,
-    nav ul li a.active {
-      color: var(--white);
-      background: rgba(255,255,255,.12);
-      text-decoration: none;
-    }
-
-    /* ─── Banner ─── */
-    #banner {
-      width: 100%;
-      height: 20.75vw;
-      overflow: hidden;
-      background: var(--primary);
-      position: relative;
-    }
-    #banner img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-    }
-    #banner-title {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;
-      text-align: center;
-      font-family: "Palatino Linotype", Palatino, serif;
-      font-size: 2vw;
-      color: rgba(255,255,255,.93);
-      letter-spacing: .04em;
-      font-style: italic;
-      text-shadow: 0 2px 8px rgba(0,0,0,.55);
-    }
-    /* Fallback when no image is supplied */
-    .banner-placeholder {
-      width: 100%;
-      height: 220px;
-      background: linear-gradient(135deg, var(--primary) 0%, #4d7a8a 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .banner-placeholder h1 {
-      color: var(--white);
-      font-size: 2rem;
-      text-align: center;
-      padding: 1rem;
-    }
-
-    /* ─── Page sections ─── */
-    .page-section {
-      display: none;
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 2.5rem 1.5rem 4rem;
-    }
-    .page-section.active { display: block; }
-
-    .page-section h2 {
-      font-size: 1.7rem;
-      border-bottom: 2px solid var(--border);
-      padding-bottom: .4rem;
-      margin-bottom: 1.5rem;
-    }
-    .page-section h3 {
-      font-size: 1.2rem;
-      margin: 1.8rem 0 .5rem;
-      color: var(--primary);
-    }
-    .page-section p { margin-bottom: 1rem; color: var(--text); }
-
-    /* ─── Info box ─── */
-    .info-box {
-      background: var(--light-bg);
-      border-left: 4px solid var(--primary);
-      padding: 1rem 1.4rem;
-      border-radius: 0 4px 4px 0;
-      margin: 1.2rem 0;
-    }
-    .info-box p { margin-bottom: .4rem; }
-    .info-box p:last-child { margin-bottom: 0; }
-
-    /* ─── Highlight / notice box ─── */
-    .notice {
-      background: #fff8e1;
-      border-left: 4px solid #f0a500;
-      padding: 1rem 1.4rem;
-      border-radius: 0 4px 4px 0;
-      margin: 1.2rem 0;
-      font-size: .95rem;
-    }
-
-    /* ─── Fee table ─── */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1.2rem 0;
-      font-size: .96rem;
-    }
-    th {
-      background: var(--primary);
-      color: var(--white);
-      padding: .6rem 1rem;
-      text-align: left;
-    }
-    td { padding: .55rem 1rem; border-bottom: 1px solid var(--border); }
-    tr:last-child td { border-bottom: none; }
-    tr:nth-child(even):not(.talk-row):not(.talk-details) td { background: var(--light-bg); }
-    .break-row td { background: var(--light-bg); color: var(--muted); font-style: italic; }
-    #programme table td:first-child { width: 120px; min-width: 120px; white-space: nowrap; }
-
-    /* ─── Speaker grid ─── */
-    .speaker-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.2rem;
-      margin-top: 1rem;
-    }
-    .speaker-card {
-      width: 280px;
-      flex-shrink: 0;
-      background: var(--light-bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1.3rem;
-      text-align: center;
-    }
-    .speaker-card .avatar {
-      width: 180px;
-      height: 90px;
-      margin: 0 auto .7rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--primary);
-      border-radius: 4px;
-      padding: 10px;
-    }
-    .speaker-card .avatar img { width: 100%; height: 100%; object-fit: contain; }
-    .speaker-card strong { display: block; font-size: 1.05rem; color: var(--primary); }
-    .speaker-card span { font-size: .92rem; color: var(--muted); }
-
-    /* ─── Deadline list ─── */
-    .deadline-list { list-style: none; margin: .5rem 0 1rem; }
-    .deadline-list li {
-      display: flex;
-      gap: 1rem;
-      padding: .4rem 0;
-      border-bottom: 1px dotted var(--border);
-      font-size: .95rem;
-    }
-    .deadline-list li:last-child { border-bottom: none; }
-    .deadline-list .date {
-      min-width: 120px;
-      font-weight: bold;
-      color: var(--accent);
-    }
-
-    /* ─── Organiser list ─── */
-    .organiser-list {
-      columns: 2;
-      list-style: none;
-      margin: .5rem 0 1.5rem;
-    }
-    .organiser-list li {
-      padding: .3rem 0;
-      font-size: .96rem;
-      break-inside: avoid;
-    }
-    .organiser-list li span { color: var(--muted); font-size: .88rem; }
-
-    /* ─── Register button ─── */
-    .btn {
-      display: inline-block;
-      background: var(--accent);
-      color: var(--white);
-      padding: .65rem 1.8rem;
-      border-radius: 4px;
-      font-family: Arial, sans-serif;
-      font-size: .95rem;
-      margin-top: .8rem;
-      transition: background .2s;
-    }
-    .btn:hover { background: #3a6070; text-decoration: none; }
-
-    /* ─── Talk row styling ─── */
-    .talk-row { cursor: pointer; }
-    .talk-row:hover { background: #f0f5f8; }
-    .talk-row.has-details { cursor: pointer; }
-    .talk-details {
-      display: none;
-      background: var(--light-bg);
-      border-top: 1px solid var(--border);
-      font-size: .95rem;
-    }
-    .talk-details td {
-      padding: 0 !important;
-      background: var(--light-bg) !important;
-    }
-    .talk-details-inner {
-      padding: 1rem 1.5rem;
-      border-left: 3px solid var(--accent);
-      margin: .5rem 1rem .75rem 1rem;
-    }
-    .talk-details.show { display: table-row; }
-    .talk-details h4 { margin-top: 0; margin-bottom: .4rem; font-size: 1rem; }
-    .talk-details p { margin-bottom: .4rem; }
-
-    /* ─── Sponsors ─── */
-    .sponsor-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      align-items: center;
-      margin-top: 1rem;
-    }
-    .sponsor-row img {
-      height: 80px;
-      filter: grayscale(30%);
-      opacity: .85;
-    }
-    .sponsor-row img:hover { opacity: 1; filter: none; }
-
-    /* ─── Footer ─── */
-    footer {
-      background: var(--primary);
-      color: rgba(255,255,255,.7);
-      text-align: center;
-      padding: 1.4rem 1rem;
-      font-size: .85rem;
-      font-family: Arial, sans-serif;
-    }
-    footer a { color: rgba(255,255,255,.85); }
-
-    /* ─── Responsive ─── */
-    @media (max-width: 600px) {
-      .organiser-list { columns: 1; }
-      .banner-placeholder h1 { font-size: 1.3rem; }
-      nav ul li a { padding: .7rem .7rem; font-size: .85rem; }
-    }
-  </style>
+<style>
+ul {
+  padding-left: 20px;
+ }
+ 
+</style>
 </head>
+</style>
+  <meta http-equiv="content-type" content="text/html">
+  <title>~</title>
+ <head>
+ 
+
+
+
 <body>
 
-  <!-- ═══════════════════════════════════════════════════
-       NAVIGATION — update href="#section-id" links
-  ════════════════════════════════════════════════════ -->
-  <nav>
-    <ul>
-      <li><a href="#home"         onclick="return show('home')"         class="active">Home</a></li>
-      <li><a href="#registration" onclick="return show('registration')"            >Registration</a></li>
-      <li><a href="#programme"    onclick="return show('programme')"               >Programme</a></li>
-      <li><a href="#logistics"    onclick="return show('logistics')"               >Logistics</a></li>
-      <li><a href="#organisation" onclick="return show('organisation')"            >Organisation</a></li>
-    </ul>
-  </nav>
+  <table cellspacing="0" width="100%">
+  
+   <font size="+3"><b>Robin Bartlett</b></font>
+      <br>
+      <br>
+      
 
-  <!-- ═══════════════════════════════════════════════════
-       BANNER — replace banner.jpg with your own image,
-       or remove the <img> to keep the gradient fallback
-  ════════════════════════════════════════════════════ -->
-  <div id="banner">
-    <img src="image.jpg" alt="Conference banner">
-    <div id="banner-title">John Coates London–Paris Number Theory Seminar</div>
-  </div>
+     School of Mathematics Sciences
+Queen Mary University of London <br>
+London <br>
+E1 4NS <br>
+United Kingdom <br>
+    ~@gmail.com (replace ~ by robin.bartlett.math)
+   <br>
+   
 
-  <!-- ═══════════════════════════════════════════════════
-       HOME
-  ════════════════════════════════════════════════════ -->
-  <section id="home" class="page-section active">
-    <h2>Geometric Perspectives on the Langlands Programme</h2>
-    <p>
-      <strong>Dates:</strong> 16–17 June 2026 &nbsp;|&nbsp;
-      <strong>Location:</strong> Queen Mary University of London
-    </p>
+  
+     
+<br>
+Here is my
+<a
+ href="cv.pdf"
+ name="cv.pdf">CV</a> (updated October 2025).
+<br>
 
-    <p>
-      The 39th meeting of the John Coates London–Paris Number Theory Seminar will take place
-      16–17 June 2026 at Queen Mary University of London. The meeting will explore recent advances
-      around geometric perspectives on the Langlands programme.
-    </p>
 
-    <h3>Invited Speakers</h3>
+<h3>Research</h3>
 
-    <div class="speaker-grid">
-      <div class="speaker-card">
-        <a href="https://sites.google.com/view/acampo/home" target="_blank" rel="noopener">
-          <div class="avatar"><img src="logos/ihes-logo.png" alt="IHES"></div>
-          <strong>Lambert A'Campo</strong>
-        </a>
-        <span>IHES</span>
-      </div>
-      <div class="speaker-card">
-        <a href="https://robin-bartlett.github.io/" target="_blank" rel="noopener">
-          <div class="avatar"><img src="logos/qmul-logo.png" alt="QMUL"></div>
-          <strong>Robin Bartlett</strong>
-        </a>
-        <span>Queen Mary University of London</span>
-      </div>
-      <div class="speaker-card">
-        <div class="avatar"><img src="logos/paris-nord-logo.png" alt="Paris Nord"></div>
-        <strong>Lucrezia Bertoletti</strong>
-        <span>Universit&eacute; Sorbonne Paris Nord</span>
-      </div>
-      <div class="speaker-card">
-        <a href="https://webusers.imj-prg.fr/~jean-francois.dat/" target="_blank" rel="noopener">
-          <div class="avatar"><img src="logos/sorbonne-logo.png" alt="Sorbonne"></div>
-          <strong>Jean-Fran&ccedil;ois Dat</strong>
-        </a>
-        <span>Sorbonne Universit&eacute; (IMJ-PRG)</span>
-      </div>
-      <div class="speaker-card">
-        <a href="https://www.kcl.ac.uk/people/andrea-dotto" target="_blank" rel="noopener">
-          <div class="avatar"><img src="logos/kcl-logo.png" alt="KCL"></div>
-          <strong>Andrea Dotto</strong>
-        </a>
-        <span>King's College London</span>
-      </div>
-      <div class="speaker-card">
-        <a href="https://www.seresearch.qmul.ac.uk/ccant/people/mnorris/" target="_blank" rel="noopener">
-          <div class="avatar"><img src="logos/qmul-logo.png" alt="QMUL"></div>
-          <strong>Miriam Norris</strong>
-        </a>
-        <span>Queen Mary University of London</span>
-      </div>
-      <div class="speaker-card">
-        <a href="https://perso.ens-lyon.fr/sandra.rozensztajn/" target="_blank" rel="noopener">
-          <div class="avatar"><img src="logos/ens-lyon-logo.png" alt="ENS de Lyon"></div>
-          <strong>Sandra Rozensztajn</strong>
-        </a>
-        <span>ENS de Lyon</span>
-      </div>
-      <div class="speaker-card">
-        <a href="https://www.dpmms.cam.ac.uk/~rz240/" target="_blank" rel="noopener">
-          <div class="avatar"><img src="logos/cambridge-logo.png" alt="Cambridge"></div>
-          <strong>Rong Zhou</strong>
-        </a>
-        <span>University of Cambridge</span>
-      </div>
-    </div>
 
-    <div class="info-box">
-      <p>
-        The John Coates London-Paris Number Theory Seminar is a biannual event, meeting in London in the Spring and in Paris in the Autumn. Each meeting is typically spread over a Monday afternoon and Tuesday morning, and is devoted to a particular theme related to number theory in a broad sense. The seminar was renamed in the honour of John Coates (26/1/1945 - 9/5/2022) in 2023, in recognition of the crucial role he played in the founding of the seminar in 2006.
-      </p>
-      <p>
-        <a href="https://www.imo.universite-paris-saclay.fr/~matthew.morrow/PLNTS/PLNTSarchive.html" target="_blank" rel="noopener">View previous meetings →</a>
-      </p>
-    </div>
+My research is in arithmetic geometry, representation theory, and algebraic geometry. I am particularly interested in combined techniques in integral p-adic Hodge theory with geometric representation theory to prove new results in the Langlands program.
+<br>
 
-    <h3>Funding</h3>
-    <p>
-      This meeting is generously supported by a Heilbronn Small Grants Scheme award and the
-      London Mathematical Society.
-    </p>
-    <div class="sponsor-row">
-      <img src="heilbronn-logo.png" alt="Heilbronn Institute for Mathematical Research">
-      <img src="lms-logo.png" alt="London Mathematical Society" style="background:#1a2d5a; padding:8px; border-radius:4px;">
-    </div>
+<ul
+style="list-style-type:circle">
+<li> 
+<i>GKLO representations of twisted Yangians in type AI and
+  quantizations of symmetric quotients of the affine Grassmannian, (with Tomasz Przezdziecki and Lukas Tappeiner)	 </i> : <a href="GKLO.pdf">pdf</a><br>
+  </i> Submitted 2025	
+  </li>
+<br>
+<li> 
+<i>Irreducibility of some crystalline loci with irregular Hodge--Tate weights </i>
+  : <a href="https://www.ams.org/journals/proc/2025-153-01/S0002-9939-2024-16984-7/?active=current">journal</a><br>
+  </i> Proceedings of the American Mathematical Society (2025)
+  </li>
+<br>
+<li>
+  <i>Cycles relations in the affine grassmannian and applications to Breuil--Mezard for G-crystalline representations </i>
+  : <a href="https://doi.org/10.1112/S0010437X2510242X">journal</a><br>
+  </i> Compositio Mathematica (2025).
+  </li>
+<br>
 
-  </section>
+<li> 
+  <i>Explicit Serre weights via Kummer theory (with <a href="https://www.universiteitleiden.nl/en/staffmembers/misja-steinmetz#tab-1">Misja Steinmetz</a>)</i> 
+  : <a href="explicit.pdf">pdf</a><br>
+  </i>Submitted 2022.
+  </li>
+<br>
 
-  <!-- ═══════════════════════════════════════════════════
-       REGISTRATION
-  ════════════════════════════════════════════════════ -->
-  <section id="registration" class="page-section">
-    <h2>Registration</h2>
+<li> 
+  <i>Degenerating products of flag varieties and applications to the Breuil--Mezard conjecture </i> 
+  : <a href="https://link.springer.com/article/10.1007/s00029-023-00905-3">journal</a> <br>
+  </i>Selecta Mathematica (2024)
+  </li>
+<br>
+<li> 
+  <i>Potential diagonalisability of pseudo-Barsotti--Tate representations </i> 
+  : <a href="https://jtnb.centre-mersenne.org/articles/10.5802/jtnb.1248/">journal</a> <br>
+  </i> Journal de Théorie des Nombres de Bordeaux (2023)
+  </li>
+<br>
 
-    <p>
-      Please register your interest in attending the talks and conference dinner using the form below.
-    </p>
+<li> 
+  <i>On the irreducible components of some crystalline deformation rings</i> 
+  : <a href="https://www.cambridge.org/core/journals/forum-of-mathematics-sigma/article/on-the-irreducible-components-of-some-crystalline-deformation-rings/F38BA20B2A1972B0EC81857A3F2B5FF7">journal</a>,  <br>
+  Forum of Mathematics Sigma, (2020)
+  </li>  
+  <br>
+  <li> 
+  <i>Potentially diagonalisable crystalline lifts with controlled Hodge--Tate weights</i> 
+  : <a href="https://ems.press/journals/dm/articles/8965759">journal</a>  <br>
+  		Documenta Mathematica, (2021)
 
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSc6So0y7V7B1a8j0ltHJ19VLp-oDT4QOIa519_OBMiUdGcnXQ/viewform?usp=header" class="btn" target="_blank" rel="noopener">Register now &rarr;</a>
+  </li>
+<br>  
+  <li> 
+  <i>Inertial and Hodge-Tate weights of crystalline representations </i>
+  :  <a href="https://link.springer.com/article/10.1007/s00208-019-01931-3">journal</a>, <br>
+  Mathematische Annalen, (2020)
+  </li>
+</ul>
+<h3>Teaching</h3>
+<ul
+style="list-style-type:circle">
 
-  </section>
+<li> 
+  Winter term 2024-2025 (University of Glasgow): Further Complex Analysis (Here are the course <a href="notes_complex_analysis2025.pdf">lecture notes</a>)
+  </li>
+<br>
+  <li> 
+  Winter term 2024-2025 (University of Glasgow): Mathematics 1C: (Calculus for first year non mathematics majors)
+  </li>
+<br>
+<li> 
+  Winter term 2023-2024 (University of Glasgow): Further Complex Analysis
+  </li>
+<br>
+<li> 
+  Winter term 2023-2024 (University of Glasgow): Mathematics 1 (Calculus for first year mathematics majors)
+  </li>
+<br>
+<li> 
+  Summer Semester 2022 (University of Münster): I organised a study group on modularity lifting theorems. 
+Here is the <a href="program.pdf">program.</a>
+  </li>
+<br>
+<li> 
+  Winter Semester 2021/22 (University of Münster): Masters course on "Deformation theory of Galois representations". Here are some <a href="deform.pdf">notes</a> I wrote for the course.
+  </li>
 
-  <!-- ═══════════════════════════════════════════════════
-       PROGRAMME
-  ════════════════════════════════════════════════════ -->
-  <section id="programme" class="page-section">
-    <h2>Programme</h2>
 
-    <p>Click on a speaker's name to view the talk abstract.</p>
-    <p>The venue for the talks is to be announced. Coffee breaks will be held in the foyer of the Queen Mary Mathematics Building. The venue for the seminar dinner is to be announced.</p>
 
-    <!-- Monday, 16 June -->
-    <h3>Tuesday, 16 June</h3>
-    <table>
-      <thead><tr><th style="width:120px">Time</th><th>Speaker</th><th>Title</th></tr></thead>
-      <tbody>
-        <tr class="talk-row has-details" onclick="toggleTalkDetails(this)"><td>09:00–10:00</td><td>Andrea Dotto</td><td><em>TBA</em></td></tr>
-        <tr class="talk-details"><td colspan="3"><div class="talk-details-inner"><p><strong>Title:</strong> To be announced shortly.</p><p><strong>Abstract:</strong> To be announced shortly.</p></div></td></tr>
-        <tr class="break-row"><td>10:00–10:30</td><td colspan="2">Coffee Break</td></tr>
-        <tr class="talk-row has-details" onclick="toggleTalkDetails(this)"><td>10:30–11:30</td><td>Lucrezia Bertoletti</td><td><em>TBA</em></td></tr>
-        <tr class="talk-details"><td colspan="3"><div class="talk-details-inner"><p><strong>Title:</strong> To be announced shortly.</p><p><strong>Abstract:</strong> To be announced shortly.</p></div></td></tr>
-        <tr class="talk-row has-details" onclick="toggleTalkDetails(this)"><td>11:40–12:40</td><td>Sandra Rozensztajn</td><td><em>TBA</em></td></tr>
-        <tr class="talk-details"><td colspan="3"><div class="talk-details-inner"><p><strong>Title:</strong> To be announced shortly.</p><p><strong>Abstract:</strong> To be announced shortly.</p></div></td></tr>
-        <tr class="break-row"><td>12:40–14:30</td><td colspan="2">Lunch</td></tr>
-        <tr class="talk-row has-details" onclick="toggleTalkDetails(this)"><td>14:30–15:30</td><td>Miriam Norris</td><td><em>TBA</em></td></tr>
-        <tr class="talk-details"><td colspan="3"><div class="talk-details-inner"><p><strong>Title:</strong> To be announced shortly.</p><p><strong>Abstract:</strong> To be announced shortly.</p></div></td></tr>
-        <tr class="talk-row has-details" onclick="toggleTalkDetails(this)"><td>15:40–16:40</td><td>Jean-François Dat</td><td><em>TBA</em></td></tr>
-        <tr class="talk-details"><td colspan="3"><div class="talk-details-inner"><p><strong>Title:</strong> To be announced shortly.</p><p><strong>Abstract:</strong> To be announced shortly.</p></div></td></tr>
-        <tr class="break-row"><td>19:00</td><td colspan="2">Seminar Dinner</td></tr>
-      </tbody>
-    </table>
 
-    <!-- Tuesday, 17 June -->
-    <h3>Wednesday, 17 June</h3>
-    <table>
-      <thead><tr><th style="width:120px">Time</th><th>Speaker</th><th>Title</th></tr></thead>
-      <tbody>
-        <tr class="talk-row has-details" onclick="toggleTalkDetails(this)"><td>09:00–10:00</td><td>Robin Bartlett</td><td><em>TBA</em></td></tr>
-        <tr class="talk-details"><td colspan="3"><div class="talk-details-inner"><p><strong>Title:</strong> To be announced shortly.</p><p><strong>Abstract:</strong> To be announced shortly.</p></div></td></tr>
-        <tr class="break-row"><td>10:00–10:30</td><td colspan="2">Coffee Break</td></tr>
-        <tr class="talk-row has-details" onclick="toggleTalkDetails(this)"><td>10:30–11:30</td><td>Lambert A'Campo</td><td><em>TBA</em></td></tr>
-        <tr class="talk-details"><td colspan="3"><div class="talk-details-inner"><p><strong>Title:</strong> To be announced shortly.</p><p><strong>Abstract:</strong> To be announced shortly.</p></div></td></tr>
-        <tr class="talk-row has-details" onclick="toggleTalkDetails(this)"><td>11:40–12:40</td><td>Rong Zhou</td><td><em>TBA</em></td></tr>
-        <tr class="talk-details"><td colspan="3"><div class="talk-details-inner"><p><strong>Title:</strong> To be announced shortly.</p><p><strong>Abstract:</strong> To be announced shortly.</p></div></td></tr>
-      </tbody>
-    </table>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════
-       LOGISTICS
-  ════════════════════════════════════════════════════ -->
-  <section id="logistics" class="page-section">
-    <h2>Logistics</h2>
-
-    <h3>Venue</h3>
-    <div class="info-box">
-      <p><strong>School of Mathematical Sciences</strong><br>
-        Queen Mary University of London<br>
-        Mile End Road<br>
-        London E1 4NS
-      </p>
-      <p>
-        The School of Mathematical Sciences is based in the Mathematical Sciences Building on Queen Mary University of London's Mile End campus.
-      </p>
-      <p>
-        <a href="https://www.qmul.ac.uk/about/howtofindus/mileend/" target="_blank" rel="noopener">How to find us &rarr;</a>
-      </p>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════
-       ORGANISATION
-  ════════════════════════════════════════════════════ -->
-  <section id="organisation" class="page-section">
-    <h2>Organisation</h2>
-
-    <h3>Local Organisers</h3>
-    <ul class="organiser-list">
-      <li>Robin Bartlett <span>– QMUL</span></li>
-      <li>Miriam Norris <span>– QMUL</span></li>
-      <li>Shu Sasaki <span>– QMUL</span></li>
-    </ul>
-
-    <h3>LPNTS/PLNTS Committee</h3>
-    <ul class="organiser-list">
-      <li>G. Boxer <span>– ICL</span></li>
-      <li>V. Dokchitser <span>– UCL</span></li>
-      <li>L. Garcia Martinez <span>– UCL</span></li>
-      <li>G. Grossi <span>– Paris XIII</span></li>
-      <li>M. Hindry <span>– Paris VII</span></li>
-      <li>M. Morrow <span>– Orsay</span></li>
-      <li>B. Romano <span>– KCL</span></li>
-      <li>S. Sasaki <span>– QMUL</span></li>
-    </ul>
-
-    <h3>Contact</h3>
-    <p>
-      For general enquiries please email
-      <a href="mailto:s.sasaki@qmul.ac.uk">s.sasaki@qmul.ac.uk</a>.
-    </p>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════
-       FOOTER
-  ════════════════════════════════════════════════════ -->
-  <footer>
-    <p>
-      John Coates London&ndash;Paris Number Theory Seminar &mdash; 16&ndash;17 June 2026 &mdash; Queen Mary University of London
-    </p>
-    <p style="margin-top:.4rem;">
-      Contact: <a href="mailto:s.sasaki@qmul.ac.uk">s.sasaki@qmul.ac.uk</a>
-    </p>
-  </footer>
-
-  <!-- ═══════════════════════════════════════════════════
-       SIMPLE TAB SWITCHING (no framework required)
-  ════════════════════════════════════════════════════ -->
-  <script>
-    function show(id) {
-      // Hide all sections
-      document.querySelectorAll('.page-section').forEach(function(s) {
-        s.classList.remove('active');
-      });
-      // Remove active from all nav links
-      document.querySelectorAll('nav a').forEach(function(a) {
-        a.classList.remove('active');
-      });
-      // Show the target section
-      var target = document.getElementById(id);
-      if (target) target.classList.add('active');
-      // Mark the clicked nav link as active
-      var link = document.querySelector('nav a[href="#' + id + '"]');
-      if (link) link.classList.add('active');
-      // Prevent default anchor scroll
-      return false;
-    }
-
-    // Toggle talk details dropdown
-    function toggleTalkDetails(row) {
-      var detailsRow = row.nextElementSibling;
-      if (detailsRow && detailsRow.classList.contains('talk-details')) {
-        detailsRow.classList.toggle('show');
-      }
-    }
-
-    // On page load: check URL hash and activate the right section
-    (function () {
-      var hash = window.location.hash.replace('#', '');
-      var valid = ['home', 'registration', 'programme', 'logistics', 'organisation'];
-      if (hash && valid.indexOf(hash) !== -1) {
-        show(hash);
-      }
-    })();
-  </script>
 </body>
 </html>
